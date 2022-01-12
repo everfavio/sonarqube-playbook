@@ -1,0 +1,23 @@
+### Configure kernel limits  - ubuntu 20.04
+- name: set kernel parameters in sysctl.conf
+  become: yes
+  become_user: root
+  lineinfile:
+    path: /etc/sysctl.conf
+    line: '{{ item }}'
+  with_items:
+    - 'vm.max_map_count=262144'
+    - 'fs.file-max=65536'
+    - 'ulimit -n 65536'
+    - 'ulimit -u 4096'
+
+- name: set kernel parameters in limit.conf
+  become: yes
+  become_user: root
+  lineinfile:
+    path: /etc/security/limits.conf
+    line: '{{ item }}'
+  with_items:
+    - 'sonarqube - nofile 65536'
+    - 'sonarqube — nproc 4096'        
+
